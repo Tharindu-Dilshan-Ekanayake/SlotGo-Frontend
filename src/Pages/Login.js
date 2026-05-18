@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FaArrowRight, FaEnvelope, FaLock, FaParking, FaShieldAlt } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 import InputCompo from '../components/InputCompo'
 import BGHOME from '../images/BGHome.png'
 import LOGO from '../images/LOGO.png'
@@ -12,7 +13,6 @@ export default function Login() {
     email: '',
     password: '',
   })
-  const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = (event) => {
@@ -26,14 +26,14 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    setError('')
     setIsLoading(true)
 
     try {
       const { role } = await loginUser(formData.email, formData.password)
+      toast.success('Login successful.')
       navigate(getDashboardPathByRole(role), { replace: true })
     } catch (loginError) {
-      setError(
+      toast.error(
         typeof loginError === 'string'
           ? loginError
           : loginError?.message || loginError?.error || 'Login failed. Please check your email and password.'
@@ -132,12 +132,6 @@ export default function Login() {
                 type="password"
                 value={formData.password}
               />
-
-              {error ? (
-                <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-600">
-                  {error}
-                </p>
-              ) : null}
 
               <button
                 className="inline-flex h-12 w-full items-center justify-center gap-3 rounded-lg bg-[#18a84b] px-5 text-sm font-extrabold text-white shadow-[0_14px_26px_rgba(24,168,75,0.24)] transition duration-200 hover:bg-[#139241] active:translate-y-[1px] disabled:cursor-not-allowed disabled:bg-[#8bcfa4]"
