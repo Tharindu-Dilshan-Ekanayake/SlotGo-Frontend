@@ -13,6 +13,7 @@ import {
 import BGHOME from '../images/BGHome.png'
 import NavBarWeB from '../components/NavBarWeB'
 
+
 const quickFeatures = [
   {
     icon: FaQrcode,
@@ -88,6 +89,7 @@ const featureCards = [
   },
 ]
 
+
 export default function Home() {
   return (
     <div id="home" className="min-h-screen w-full bg-[#eef6ff] text-[#071633]">
@@ -96,7 +98,7 @@ export default function Home() {
       <main className="relative min-h-[calc(100dvh-72px)] overflow-x-hidden bg-[linear-gradient(180deg,#ffffff_0%,#ffffff_60%,#eef6ff_60%,#eef6ff_100%)]">
         <div className="pointer-events-none absolute -left-16 -top-20 h-36 w-36 rounded-full bg-[#ffc400]" />
         <div className="pointer-events-none absolute left-0 top-16 h-28 w-28 opacity-30 [background-image:radial-gradient(#f7c516_1px,transparent_1px)] [background-size:10px_10px]" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-36 " />
+        <div className="absolute inset-x-0 top-0 pointer-events-none h-36 " />
 
         <section className="relative flex w-full flex-col px-5 pb-14  sm:px-10 sm:pb-16 lg:px-12 lg:pb-16  xl:min-h-[calc(100dvh-72px)] xl:px-[7vw] xl:pb-16  2xl:px-[8vw]">
           <div className="relative z-[1] grid items-center gap-8 py-2 lg:min-h-[clamp(430px,calc(100vh-330px),580px)] lg:grid-cols-[0.74fr_1.26fr] lg:py-0 2xl:grid-cols-[0.68fr_1.32fr]">
@@ -116,7 +118,7 @@ export default function Home() {
                 technology, real-time tracking, and instant notifications.
               </p>
 
-              <div className="mt-6 flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center gap-4 mt-6">
                 <button
                   className="inline-flex h-11 min-w-[142px] items-center justify-center gap-3 rounded-lg bg-[#f7bd13] px-5 text-sm font-extrabold text-[#171000] shadow-[0_12px_22px_rgba(247,189,19,0.28)] transition-transform duration-200 active:translate-y-[1px]"
                   type="button"
@@ -138,7 +140,7 @@ export default function Home() {
 
               <div className="mt-8 grid max-w-[650px] gap-5 sm:grid-cols-3 lg:gap-4">
                 {quickFeatures.map(({ icon: Icon, title, text, iconClass }) => (
-                  <div key={title} className="flex min-w-0 items-center gap-3">
+                  <div key={title} className="flex items-center min-w-0 gap-3">
                     <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${iconClass}`}>
                       <Icon className="text-[17px]" aria-hidden="true" />
                     </span>
@@ -174,7 +176,7 @@ export default function Home() {
                 </span>
                 <span>
                   <span className="block text-2xl font-extrabold leading-none">{value}</span>
-                  <span className="mt-1 block text-xs font-medium text-white/85">{label}</span>
+                  <span className="block mt-1 text-xs font-medium text-white/85">{label}</span>
                 </span>
               </div>
             ))}

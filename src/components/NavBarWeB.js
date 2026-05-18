@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FaArrowRight, FaBars, FaTimes } from 'react-icons/fa'
 import LOGO from '../images/LOGO.png'
+import { useNavigate } from 'react-router-dom'
 
 const navLinks = [
   { href: '#home', label: 'Home', active: true },
@@ -10,15 +11,19 @@ const navLinks = [
   { href: '#about', label: 'About Us' },
   { href: '#contact', label: 'Contact' },
 ]
-
 export default function NavBarWeB() {
   const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
+
+  const navigateToLogin = () => {
+    navigate('/login')
+  }
 
   return (
     <header className="sticky top-0 z-20 h-[72px] w-full bg-white/90 shadow-[0_4px_18px_rgba(12,20,33,0.08)] backdrop-blur">
-      <div className="flex h-full w-full items-center justify-between gap-6 px-4 sm:px-8 lg:px-10 xl:px-14 2xl:px-16">
+      <div className="flex items-center justify-between w-full h-full gap-6 px-4 sm:px-8 lg:px-10 xl:px-14 2xl:px-16">
         <div className="flex items-center gap-2.5">
-          <img className="h-10 object-contain" src={LOGO} alt="SlotGo logo" />
+          <img className="object-contain h-10" src={LOGO} alt="SlotGo logo" />
         
         </div>
 
@@ -35,8 +40,8 @@ export default function NavBarWeB() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 sm:flex">
-          <button className="h-10 rounded-lg border border-[#cfd6e6] bg-white px-5 text-sm font-bold text-[#1a2340] transition-transform duration-200 active:translate-y-[1px]" type="button">
+        <div className="items-center hidden gap-3 sm:flex">
+          <button className="h-10 rounded-lg border border-[#cfd6e6] bg-white px-5 text-sm font-bold text-[#1a2340] transition-transform duration-200 active:translate-y-[1px]" type="button" onClick={navigateToLogin}>
             Login
           </button>
           <button className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-[#f7bd13] bg-[#f7bd13] px-5 text-sm font-bold text-[#1b1400] shadow-[0_8px_16px_rgba(247,189,19,0.24)] transition-transform duration-200 active:translate-y-[1px]" type="button">
