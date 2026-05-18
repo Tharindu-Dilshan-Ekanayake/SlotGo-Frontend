@@ -36,3 +36,52 @@ export const createParkingRecord = async (payload) => {
 
   return response.data
 }
+
+export const getAdditionalParkingPackages = async () => {
+  const candidateUrls = ['/aditionalparking', '/additionalparking', '/additional-parking']
+
+  let lastError
+  for (const url of candidateUrls) {
+    try {
+      const response = await axiosInstance.get(url)
+      return getDataList(response.data)
+    } catch (error) {
+      lastError = error
+    }
+  }
+
+  throw lastError || new Error('Unable to load additional parking packages.')
+}
+
+export const addAdditionalPackageToParking = async (parkingId, additionalPackageId) => {
+  const normalizedParkingId = Number(parkingId)
+  const normalizedPackageId = Number(additionalPackageId)
+
+  if (!normalizedParkingId) {
+    throw new Error('Missing parking id.')
+  }
+  if (!normalizedPackageId) {
+    throw new Error('Missing additional package id.')
+  }
+
+  const candidatePayloads = [
+    { additionalPackageId: normalizedPackageId },
+    { additionalFeePackageId: normalizedPackageId },
+    { additionalParkingPackageId: normalizedPackageId },
+  ]
+
+  let lastError
+  for (const payload of candidatePayloads) {
+    try {
+      const response = await axiosInstance.patch(
+        `/parking/${normalizedParkingId}/additional-package`,
+        payload
+      )
+      return response.data
+    } catch (error) {
+      lastError = error
+    }
+  }
+
+  throw lastError || new Error('Unable to add additional package.')
+}
