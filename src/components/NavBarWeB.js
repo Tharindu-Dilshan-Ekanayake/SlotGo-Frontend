@@ -16,6 +16,7 @@ export default function NavBarWeB() {
   const navigate = useNavigate()
 
   const navigateToLogin = () => {
+    setIsOpen(false)
     navigate('/login')
   }
 
@@ -40,7 +41,7 @@ export default function NavBarWeB() {
           ))}
         </nav>
 
-        <div className="items-center hidden gap-3 sm:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           <button className="h-10 rounded-lg border border-[#cfd6e6] bg-white px-5 text-sm font-bold text-[#1a2340] transition-transform duration-200 active:translate-y-[1px]" type="button" onClick={navigateToLogin}>
             Login
           </button>
@@ -50,15 +51,25 @@ export default function NavBarWeB() {
           </button>
         </div>
 
-        <button
-          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#d8e0ef] bg-white text-[#16264c] lg:hidden"
-          type="button"
-          aria-label="Open navigation"
-          aria-expanded={isOpen}
-          onClick={() => setIsOpen((open) => !open)}
-        >
-          {isOpen ? <FaTimes className="text-[18px]" aria-hidden="true" /> : <FaBars className="text-[18px]" aria-hidden="true" />}
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <button
+            className="h-10 rounded-lg border border-[#18a84b] bg-white px-4 text-sm font-bold text-[#18a84b] transition-transform duration-200 active:translate-y-[1px]"
+            type="button"
+            onClick={navigateToLogin}
+          >
+            Login
+          </button>
+
+          <button
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#d8e0ef] bg-white text-[#16264c]"
+            type="button"
+            aria-label="Open navigation"
+            aria-expanded={isOpen}
+            onClick={() => setIsOpen((open) => !open)}
+          >
+            {isOpen ? <FaTimes className="text-[18px]" aria-hidden="true" /> : <FaBars className="text-[18px]" aria-hidden="true" />}
+          </button>
+        </div>
       </div>
 
       {isOpen ? (

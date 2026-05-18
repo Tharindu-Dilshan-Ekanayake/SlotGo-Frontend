@@ -6,10 +6,11 @@ import Login from './Pages/Login';
 import AdminDash from './Pages/admin/AdminDash';
 import CounterHome from './Pages/counter/CounterHome';
 import ProtectedRoute from './components/ProtectedRoute';
+import API_BASE_URL from './apis/apiBaseUrl';
 import axios from 'axios';
 
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = API_BASE_URL;
 
 function App() {
   return (
