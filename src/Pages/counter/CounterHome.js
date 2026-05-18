@@ -57,7 +57,7 @@ function RegisterHome() {
   return (
     <section>
       <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#18a84b]">Counter</p>
-      <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className="flex flex-col gap-4 mt-2 sm:flex-row sm:items-end sm:justify-between">
         <h1 className="text-2xl font-extrabold text-[#071633] sm:text-3xl">Dashboard</h1>
 
         <button
@@ -69,7 +69,7 @@ function RegisterHome() {
         </button>
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 mt-6 lg:grid-cols-2">
         <div className="rounded-lg border border-[#dce8f7] bg-white p-5 shadow-[0_12px_28px_rgba(15,23,42,0.08)]">
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -83,14 +83,14 @@ function RegisterHome() {
           {availableSlots.length === 0 && !isMetaLoading ? (
             <p className="mt-4 text-sm font-semibold text-[#64748b]">No available slots.</p>
           ) : (
-            <ul className="mt-4 grid gap-2">
+            <ul className="grid gap-2 mt-4">
               {availableSlots.slice(0, 12).map((slot) => (
                 <li
                   key={slot.id}
                   className="flex items-center justify-between rounded-lg border border-[#edf1f7] bg-[#f8fbff] px-3 py-2"
                 >
                   <span className="text-sm font-extrabold text-[#10224a]">
-                    #{slot.id} {slot.name || `Slot ${slot.id}`}
+                     {slot.name || `Slot ${slot.id}`}
                   </span>
                 </li>
               ))}
@@ -116,14 +116,14 @@ function RegisterHome() {
           {packages.length === 0 && !isMetaLoading ? (
             <p className="mt-4 text-sm font-semibold text-[#64748b]">No active packages.</p>
           ) : (
-            <ul className="mt-4 grid gap-2">
+            <ul className="grid gap-2 mt-4">
               {packages.map((feePackage) => (
                 <li
                   key={feePackage.id}
                   className="rounded-lg border border-[#edf1f7] bg-[#f8fbff] px-3 py-2"
                 >
                   <p className="text-sm font-extrabold text-[#10224a]">
-                    #{feePackage.id} {feePackage.timeDuration}
+                     {feePackage.timeDuration}
                   </p>
                   <p className="mt-1 text-xs font-semibold text-[#64748b]">
                     Price: {formatCurrency(getPackageFee(feePackage))}
@@ -144,7 +144,7 @@ export default function CounterHome() {
       <CounterNav />
 
       <main className="px-5 py-6 sm:px-8 lg:ml-72 lg:px-10">
-        <div className="mx-auto max-w-6xl">
+        <div className="max-w-6xl mx-auto">
           <Routes>
             <Route path="/" element={<Navigate replace to="register" />} />
             <Route path="register" element={<RegisterHome />} />
