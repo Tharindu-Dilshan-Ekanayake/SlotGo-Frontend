@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { getPackages, createPackage, updatePackage, deletePackage, getAdditionalPackages, createAdditionalPackage, updateAdditionalPackage, deleteAdditionalPackage } from '../../apis/packageApi';
 import toast from 'react-hot-toast';
 import Modal from '../../components/Modal';
+import Pagination from '../../components/Pagination';
 
 export default function Package() {
   const [packages, setPackages] = useState([]);
   const [additionalPackages, setAdditionalPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState('standard'); // 'standard' or 'additional'
+  const [currentPage, setCurrentPage] = useState(1);
   
   const [modalOpen, setModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -33,6 +35,10 @@ export default function Package() {
   useEffect(() => {
     loadData();
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [view]);
 
   const handleOpenModal = (pkg = null) => {
     if (pkg) {
@@ -115,6 +121,11 @@ export default function Package() {
   };
 
   const currentList = view === 'standard' ? packages : additionalPackages;
+  const itemsPerPage = 8;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = currentList.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(currentList.length / itemsPerPage);
 
   return (
     <div>
@@ -151,7 +162,7 @@ export default function Package() {
             </div>
 
             <div className="divide-y divide-slate-100">
-              {currentList.map(pkg => {
+              {currentItems.map(pkg => {
                 const duration = view === 'standard' ? pkg.timeDuration : `${pkg.hours} hours`;
                 const price = view === 'standard' ? Number(pkg.packagePrice) : Number(pkg.fee);
                 const discount = view === 'standard' ? pkg.offer : pkg.discount;
@@ -200,10 +211,11 @@ export default function Package() {
                   </div>
                 );
               })}
-              {currentList.length === 0 && (
+              {currentItems.length === 0 && (
                 <div className="px-6 py-8 text-center text-slate-500 font-bold">No packages found</div>
               )}
             </div>
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
           </>
         )}
       </div>

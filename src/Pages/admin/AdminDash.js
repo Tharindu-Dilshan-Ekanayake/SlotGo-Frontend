@@ -6,6 +6,7 @@ import UserManagement from './UserManagement'
 import Slot from './Slot'
 import Parking from './Parking'
 import Package from './Package'
+import Messages from './Messages'
 
 export default function AdminDash() {
   return (
@@ -21,6 +22,7 @@ export default function AdminDash() {
             <Route path="slots" element={<Slot />} />
             <Route path="parking" element={<Parking />} />
             <Route path="packages" element={<Package />} />
+            <Route path="messages" element={<Messages />} />
           </Routes>
         </div>
       </main>

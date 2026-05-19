@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { getActiveParkingRecords, getEndedParkingRecords } from '../../apis/parkingApi';
 import toast from 'react-hot-toast';
 import { FaRedo } from "react-icons/fa";
+import Pagination from '../../components/Pagination';
 
 export default function Parking() {
   const [activeParking, setActiveParking] = useState([]);
   const [endedParking, setEndedParking] = useState([]);
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState('ongoing'); // 'ongoing' or 'ended'
+  const [currentPage, setCurrentPage] = useState(1);
 
   const loadData = async () => {
     setLoading(true);
@@ -29,7 +31,16 @@ export default function Parking() {
     loadData();
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [view]);
+
   const records = view === 'ongoing' ? activeParking : endedParking;
+  const itemsPerPage = 8;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = records.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(records.length / itemsPerPage);
 
   return (
     <div>
@@ -73,7 +84,7 @@ export default function Parking() {
             </div>
 
             <div className="divide-y divide-slate-100">
-              {records.map(record => (
+              {currentItems.map(record => (
                 <div key={record.id} className="px-5 py-4 transition hover:bg-slate-50">
                   <div className="items-center hidden grid-cols-12 gap-3 md:grid">
                     <div className="col-span-3">
@@ -119,10 +130,11 @@ export default function Parking() {
                   </div>
                 </div>
               ))}
-              {records.length === 0 && (
+              {currentItems.length === 0 && (
                 <div className="px-6 py-8 text-center text-slate-500 font-bold">No {view} parking records found</div>
               )}
             </div>
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
           </>
         )}
       </div>

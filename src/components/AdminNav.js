@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaBars, FaTimes, FaChartPie, FaUsers, FaThList, FaParking, FaBox } from 'react-icons/fa'
+import { FaBars, FaTimes, FaChartPie, FaUsers, FaThList, FaParking, FaBox, FaEnvelope } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
 import LOGO from '../images/LOGO.png'
 import LogoutButton from './LogoutButton'
@@ -10,6 +10,7 @@ const adminLinks = [
   { to: '/admin/slots', label: 'Slot', icon: FaThList },
   { to: '/admin/parking', label: 'Parking', icon: FaParking },
   { to: '/admin/packages', label: 'Package', icon: FaBox },
+  { to: '/admin/messages', label: 'Messages', icon: FaEnvelope },
 ]
 
 export default function AdminNav() {
