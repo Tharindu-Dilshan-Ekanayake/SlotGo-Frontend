@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { getAvailableSlots, getSlots, createSlot, updateSlot, deleteSlot } from '../../apis/slotApi';
 import toast from 'react-hot-toast';
 import Modal from '../../components/Modal';
+import Pagination from '../../components/Pagination';
 
 export default function Slot() {
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ id: '', name: '' });
 
@@ -25,6 +27,12 @@ export default function Slot() {
   useEffect(() => {
     loadSlots();
   }, []);
+
+  const itemsPerPage = 8;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = slots.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(slots.length / itemsPerPage);
 
   const handleOpenModal = (slot = null) => {
     if (slot) {
@@ -88,7 +96,7 @@ export default function Slot() {
             </div>
 
             <div className="divide-y divide-slate-100">
-              {slots.map(slot => (
+              {currentItems.map(slot => (
                 <div key={slot.id} className="px-5 py-4 transition hover:bg-slate-50">
                   <div className="items-center hidden grid-cols-12 gap-3 md:grid">
                     <div className="col-span-2 text-[13px] font-bold text-slate-800">{slot.id}</div>
@@ -111,10 +119,11 @@ export default function Slot() {
                   </div>
                 </div>
               ))}
-              {slots.length === 0 && (
+              {currentItems.length === 0 && (
                 <div className="px-6 py-8 text-center text-slate-500 font-bold">No slots found</div>
               )}
             </div>
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
           </>
         )}
       </div>

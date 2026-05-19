@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaPlus, FaRedo, FaStopCircle, FaTimes } from "react-icons/fa";
+import { FaPlus, FaRedo,  FaTimes } from "react-icons/fa";
 import toast from "react-hot-toast";
 import {
   addAdditionalPackageToParking,
@@ -10,6 +10,7 @@ import {
   getParkingPackages,
 } from "../../apis/parkingApi";
 import { getAvailableSlots } from "../../apis/slotApi";
+import Pagination from "../../components/Pagination";
 
 const getPackageFee = (feePackage) => {
   if (!feePackage) {
@@ -204,6 +205,7 @@ export default function CounterParking() {
   const [viewModal, setViewModal] = useState(false);
   const [selectedParking, setSelectedParking] = useState(null);
   const [additionalModal, setAdditionalModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isMetaLoading, setIsMetaLoading] = useState(false);
@@ -428,6 +430,12 @@ export default function CounterParking() {
     }
   };
 
+  const itemsPerPage = 8;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = parkingRecords.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(parkingRecords.length / itemsPerPage);
+
   return (
     <section>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -491,7 +499,7 @@ export default function CounterParking() {
 
         {/* BODY */}
         <div className="divide-y divide-slate-100">
-          {parkingRecords.map((parking) => {
+          {currentItems.map((parking) => {
             const now = new Date();
             const endTime = new Date(parking.parkEndTime);
 
@@ -654,6 +662,7 @@ export default function CounterParking() {
             );
           })}
         </div>
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       </div>
       {/* VIEW MODAL */}
       {viewModal && selectedParking && (

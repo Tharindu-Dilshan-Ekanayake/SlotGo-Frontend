@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { getUsers, createUser, updateUser, deleteUser } from '../../apis/userApi';
 import toast from 'react-hot-toast';
 import Modal from '../../components/Modal';
+import Pagination from '../../components/Pagination';
 
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ id: '', name: '', email: '', role: 'counter', password: '' });
 
@@ -25,6 +27,12 @@ export default function UserManagement() {
   useEffect(() => {
     loadUsers();
   }, []);
+
+  const itemsPerPage = 8;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = users.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(users.length / itemsPerPage);
 
   const handleOpenModal = (user = null) => {
     if (user) {
@@ -97,7 +105,7 @@ export default function UserManagement() {
             </div>
 
             <div className="divide-y divide-slate-100">
-              {users.map(user => (
+              {currentItems.map(user => (
                 <div key={user.id} className="px-5 py-4 transition hover:bg-slate-50">
                   <div className="items-center hidden grid-cols-12 gap-3 md:grid">
                     <div className="col-span-4 text-[13px] font-bold text-slate-800">{user.name || 'N/A'}</div>
@@ -130,10 +138,11 @@ export default function UserManagement() {
                   </div>
                 </div>
               ))}
-              {users.length === 0 && (
+              {currentItems.length === 0 && (
                 <div className="px-6 py-8 text-center text-slate-500 font-bold">No users found</div>
               )}
             </div>
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
           </>
         )}
       </div>
