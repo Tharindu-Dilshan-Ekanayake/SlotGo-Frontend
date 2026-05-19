@@ -15,6 +15,22 @@ export const getActiveParkingRecords = async () => {
   return parkingRecords.filter((parking) => parking.end === false || parking.ongoing !== false)
 }
 
+export const getAllParkingRecords = async () => {
+  const response = await axiosInstance.get('/parking')
+  return getDataList(response.data)
+}
+
+export const getEndedParkingRecords = async () => {
+  try {
+    const response = await axiosInstance.get('/parking/ended')
+    return getDataList(response.data)
+  } catch (error) {
+    const response = await axiosInstance.get('/parking')
+    const parkingRecords = getDataList(response.data)
+    return parkingRecords.filter((parking) => parking.end === true || parking.ongoing === false)
+  }
+}
+
 export const getParkingPackages = async () => {
   const response = await axiosInstance.get('/packages')
   const packages = getDataList(response.data)
